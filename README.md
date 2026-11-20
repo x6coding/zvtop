@@ -10,7 +10,7 @@ A [btop](https://github.com/aristocratos/btop)-inspired terminal monitor for NVI
 [![Go Reference](https://pkg.go.dev/badge/github.com/zvdy/zvtop.svg)](https://pkg.go.dev/github.com/zvdy/zvtop)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-![zvtop screenshot](docs/screenshot.png)
+![zvtop screenshot (gruvbox dark)](docs/screenshot-gruvbox.png)
 
 ## Features
 
