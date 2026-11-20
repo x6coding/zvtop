@@ -1,7 +1,7 @@
 version: 2
 
 builds:
-  - main: ./cmd/nvtop
+  - main: ./cmd/zvtop
     env:
       - CGO_ENABLED=1
       - CGO_CFLAGS=-Wno-deprecated-declarations

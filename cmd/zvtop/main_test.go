@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zvdy/nvtop/internal/gpu"
+	"github.com/zvdy/zvtop/internal/gpu"
 )
 
 func TestParseFlags(t *testing.T) {
@@ -63,7 +63,7 @@ func TestRunVersion(t *testing.T) {
 	if err := run([]string{"-version"}, &out, io.Discard); err != nil {
 		t.Fatal(err)
 	}
-	if !strings.HasPrefix(out.String(), "nvtop ") {
+	if !strings.HasPrefix(out.String(), "zvtop ") {
 		t.Fatalf("unexpected version output %q", out.String())
 	}
 }

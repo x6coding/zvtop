@@ -10,7 +10,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/zvdy/nvtop/internal/gpu"
+	"github.com/zvdy/zvtop/internal/gpu"
 )
 
 func newTestModel(t *testing.T, gpus, w, h int) Model {
@@ -67,7 +67,7 @@ func TestViewFitsTerminal(t *testing.T) {
 			}
 		}
 	}
-	if os.Getenv("NVTOP_DUMP") != "" {
+	if os.Getenv("ZVTOP_DUMP") != "" {
 		t.Log("\n" + newTestModel(t, 2, 120, 40).View())
 	}
 }

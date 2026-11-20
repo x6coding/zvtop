@@ -1,4 +1,4 @@
-// Command nvtop is a btop-inspired terminal monitor for NVIDIA GPUs.
+// Command zvtop is a btop-inspired terminal monitor for NVIDIA GPUs.
 package main
 
 import (
@@ -16,8 +16,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/zvdy/nvtop/internal/gpu"
-	"github.com/zvdy/nvtop/internal/ui"
+	"github.com/zvdy/zvtop/internal/gpu"
+	"github.com/zvdy/zvtop/internal/ui"
 )
 
 var version = "dev"
@@ -32,7 +32,7 @@ type options struct {
 
 func main() {
 	if err := run(os.Args[1:], os.Stdout, os.Stderr); err != nil {
-		fmt.Fprintln(os.Stderr, "nvtop:", err)
+		fmt.Fprintln(os.Stderr, "zvtop:", err)
 		os.Exit(1)
 	}
 }
@@ -47,7 +47,7 @@ func run(args []string, stdout, stderr io.Writer) error {
 	}
 
 	if opts.version {
-		fmt.Fprintln(stdout, "nvtop", buildVersion())
+		fmt.Fprintln(stdout, "zvtop", buildVersion())
 		return nil
 	}
 
@@ -72,7 +72,7 @@ func run(args []string, stdout, stderr io.Writer) error {
 
 func parseFlags(args []string, stderr io.Writer) (options, error) {
 	var o options
-	fs := flag.NewFlagSet("nvtop", flag.ContinueOnError)
+	fs := flag.NewFlagSet("zvtop", flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	fs.DurationVar(&o.interval, "interval", time.Second, "refresh interval")
 	fs.DurationVar(&o.interval, "i", time.Second, "shorthand for -interval")
@@ -81,7 +81,7 @@ func parseFlags(args []string, stderr io.Writer) (options, error) {
 	fs.BoolVar(&o.jsonOut, "json", false, "print a single snapshot as JSON and exit")
 	fs.BoolVar(&o.version, "version", false, "print version and exit")
 	fs.Usage = func() {
-		fmt.Fprintf(stderr, "Usage: nvtop [flags]\n\nA btop-inspired terminal monitor for NVIDIA GPUs.\n\nFlags:\n")
+		fmt.Fprintf(stderr, "Usage: zvtop [flags]\n\nA btop-inspired terminal monitor for NVIDIA GPUs.\n\nFlags:\n")
 		fs.PrintDefaults()
 	}
 	if err := fs.Parse(args); err != nil {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/zvdy/nvtop/internal/gpu"
+	"github.com/zvdy/zvtop/internal/gpu"
 )
 
 const (
@@ -84,7 +84,7 @@ func (m Model) center(s string) string {
 func (m Model) headerView() string {
 	t := m.theme
 	sep := t.Dim.Render(" │ ")
-	left := t.Hi.Render(" nvtop") + sep + t.Text.Render(m.host)
+	left := t.Hi.Render(" zvtop") + sep + t.Text.Render(m.host)
 	if m.snap.Driver != "" {
 		left += sep + t.Dim.Render("driver ") + t.Text.Render(m.snap.Driver)
 	}

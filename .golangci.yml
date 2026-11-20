@@ -33,4 +33,4 @@ formatters:
   settings:
     goimports:
       local-prefixes:
-        - github.com/zvdy/nvtop
+        - github.com/zvdy/zvtop

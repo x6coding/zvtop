@@ -4,7 +4,7 @@ import (
 	"cmp"
 	"slices"
 
-	"github.com/zvdy/nvtop/internal/gpu"
+	"github.com/zvdy/zvtop/internal/gpu"
 )
 
 type sortKey int

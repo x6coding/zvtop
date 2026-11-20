@@ -1,12 +1,12 @@
-# nvtop
+# zvtop
 
 A [btop](https://github.com/aristocratos/btop)-inspired terminal monitor for NVIDIA GPUs, written in Go.
 
-[![ci](https://github.com/zvdy/nvtop/actions/workflows/ci.yml/badge.svg)](https://github.com/zvdy/nvtop/actions/workflows/ci.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/zvdy/nvtop.svg)](https://pkg.go.dev/github.com/zvdy/nvtop)
+[![ci](https://github.com/zvdy/zvtop/actions/workflows/ci.yml/badge.svg)](https://github.com/zvdy/zvtop/actions/workflows/ci.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/zvdy/zvtop.svg)](https://pkg.go.dev/github.com/zvdy/zvtop)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-![nvtop screenshot](docs/screenshot.png)
+![zvtop screenshot](docs/screenshot.png)
 
 ## Features
 
@@ -24,14 +24,14 @@ A [btop](https://github.com/aristocratos/btop)-inspired terminal monitor for NVI
 You need Go 1.27+, a C toolchain (cgo) and the NVIDIA driver, which provides `libnvidia-ml.so`.
 
 ```sh
-go install github.com/zvdy/nvtop/cmd/nvtop@latest
+go install github.com/zvdy/zvtop/cmd/zvtop@latest
 ```
 
 Or build from source:
 
 ```sh
-git clone https://github.com/zvdy/nvtop && cd nvtop
-make build        # ./bin/nvtop
+git clone https://github.com/zvdy/zvtop && cd zvtop
+make build        # ./bin/zvtop
 make demo         # run against two simulated GPUs
 ```
 
@@ -40,7 +40,7 @@ NVML is loaded at runtime with `dlopen`, so the binary builds on machines withou
 ## Usage
 
 ```
-nvtop [flags]
+zvtop [flags]
 
   -i, -interval duration   refresh interval (default 1s)
   -theme string            color theme: default, dracula, gruvbox, nord
@@ -50,8 +50,8 @@ nvtop [flags]
 ```
 
 ```sh
-nvtop -i 250ms -theme nord
-nvtop -json | jq '.devices[] | {name, util, temp, power}'
+zvtop -i 250ms -theme nord
+zvtop -json | jq '.devices[] | {name, util, temp, power}'
 ```
 
 ### Keys
@@ -72,7 +72,7 @@ nvtop -json | jq '.devices[] | {name, util, temp, power}'
 ## Architecture
 
 ```
-cmd/nvtop            flag parsing, backend selection, JSON mode
+cmd/zvtop            flag parsing, backend selection, JSON mode
 internal/gpu         Source interface, Snapshot model
   nvml.go            NVML backend (linux && cgo)
   nvml_stub.go       fallback for other builds

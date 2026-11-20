@@ -10,8 +10,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/zvdy/nvtop/internal/gpu"
-	"github.com/zvdy/nvtop/internal/history"
+	"github.com/zvdy/zvtop/internal/gpu"
+	"github.com/zvdy/zvtop/internal/history"
 )
 
 const (

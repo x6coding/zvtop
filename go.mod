@@ -1,4 +1,4 @@
-module github.com/zvdy/nvtop
+module github.com/zvdy/zvtop
 
 go 1.27.2
 

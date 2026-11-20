@@ -1,5 +1,5 @@
-BINARY  := nvtop
-PKG     := ./cmd/nvtop
+BINARY  := zvtop
+PKG     := ./cmd/zvtop
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 LDFLAGS := -s -w -X main.version=$(VERSION)
 
