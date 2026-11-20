@@ -15,7 +15,7 @@ import (
 
 func newTestModel(t *testing.T, gpus, w, h int) Model {
 	t.Helper()
-	theme, err := LoadTheme("default")
+	theme, err := LoadTheme(DefaultTheme)
 	if err != nil {
 		t.Fatal(err)
 	}

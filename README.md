@@ -18,7 +18,7 @@ A [btop](https://github.com/aristocratos/btop)-inspired terminal monitor for NVI
 - **Live meters** for GPU, VRAM, temperature, power, fan, memory bandwidth, NVENC/NVDEC, clocks and performance state
 - **Process table** showing per-process SM/encoder/decoder usage and VRAM. You can sort it, scroll it and send signals from it, and the selection stays on the same PID when rows reorder
 - **Multi-GPU** support with an overview strip and quick switching
-- **Four themes**: `default`, `nord`, `dracula` and `gruvbox`. You can switch themes while it runs
+- **Four themes**: `gruvbox` (default, dark hard contrast), `btop`, `nord` and `dracula`. You can switch themes while it runs
 - **JSON output** (`-json`) for scripts and monitoring pipelines
 - **Simulated backend** (`-mock N`) so you can try the UI without NVIDIA hardware
 - Metrics a device doesn't support show as `n/a` and don't break the layout
@@ -47,7 +47,7 @@ NVML is loaded at runtime with `dlopen`, so the binary builds on machines withou
 zvtop [flags]
 
   -i, -interval duration   refresh interval (default 1s)
-  -theme string            color theme: default, dracula, gruvbox, nord
+  -theme string            color theme: btop, dracula, gruvbox, nord (default "gruvbox")
   -mock n                  simulate n GPUs instead of querying NVML
   -json                    print a single snapshot as JSON and exit
   -version                 print version and exit

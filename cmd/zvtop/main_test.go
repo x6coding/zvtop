@@ -18,8 +18,8 @@ func TestParseFlags(t *testing.T) {
 		want    options
 		wantErr string
 	}{
-		{name: "defaults", want: options{interval: time.Second, theme: "default"}},
-		{name: "short interval", args: []string{"-i", "250ms"}, want: options{interval: 250 * time.Millisecond, theme: "default"}},
+		{name: "defaults", want: options{interval: time.Second, theme: "gruvbox"}},
+		{name: "short interval", args: []string{"-i", "250ms"}, want: options{interval: 250 * time.Millisecond, theme: "gruvbox"}},
 		{name: "mock and theme", args: []string{"-mock", "4", "-theme", "nord"}, want: options{interval: time.Second, theme: "nord", mock: 4}},
 		{name: "negative interval", args: []string{"-i", "-1s"}, wantErr: "interval must be positive"},
 		{name: "negative mock", args: []string{"-mock", "-1"}, wantErr: "non-negative"},

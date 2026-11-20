@@ -69,8 +69,11 @@ type palette struct {
 	util, mem, temp, power, rx, tx           []string
 }
 
+// DefaultTheme is the theme used when none is chosen.
+const DefaultTheme = "gruvbox"
+
 var palettes = map[string]palette{
-	"default": {
+	"btop": {
 		text: "#cccccc", dim: "#404040", title: "#eeeeee", hi: "#b54040", warn: "#e5c07b",
 		selFg: "#ecffec", selBg: "#0b4f2a",
 		gpuBox: "#3d7b46", memBox: "#8a882e", pwrBox: "#a0522d", pcieBox: "#423ba5", procBox: "#923535",
@@ -103,12 +106,15 @@ var palettes = map[string]palette{
 		rx:    []string{"#6272a4", "#bd93f9", "#ff79c6"},
 		tx:    []string{"#6272a4", "#8be9fd", "#50fa7b"},
 	},
+	// gruvbox dark, hard contrast. Frame/chrome uses only the bg/fg scale
+	// (same as the tmux-gruvbox bar and nvim chrome); accents are reserved
+	// for the data itself.
 	"gruvbox": {
-		text: "#ebdbb2", dim: "#504945", title: "#fbf1c7", hi: "#fe8019", warn: "#fabd2f",
-		selFg: "#fbf1c7", selBg: "#665c54",
-		gpuBox: "#98971a", memBox: "#d79921", pwrBox: "#d65d0e", pcieBox: "#458588", procBox: "#cc241d",
+		text: "#ebdbb2", dim: "#504945", title: "#fbf1c7", hi: "#fbf1c7", warn: "#fabd2f",
+		selFg: "#fbf1c7", selBg: "#504945",
+		gpuBox: "#7c6f64", memBox: "#7c6f64", pwrBox: "#7c6f64", pcieBox: "#7c6f64", procBox: "#7c6f64",
 		util:  []string{"#b8bb26", "#fabd2f", "#fb4934"},
-		mem:   []string{"#83a598", "#458588", "#b16286"},
+		mem:   []string{"#83a598", "#8ec07c", "#d3869b"},
 		temp:  []string{"#83a598", "#fabd2f", "#fb4934"},
 		power: []string{"#fabd2f", "#fe8019", "#fb4934"},
 		rx:    []string{"#458588", "#83a598", "#8ec07c"},

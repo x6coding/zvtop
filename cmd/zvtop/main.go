@@ -76,7 +76,7 @@ func parseFlags(args []string, stderr io.Writer) (options, error) {
 	fs.SetOutput(stderr)
 	fs.DurationVar(&o.interval, "interval", time.Second, "refresh interval")
 	fs.DurationVar(&o.interval, "i", time.Second, "shorthand for -interval")
-	fs.StringVar(&o.theme, "theme", "default", "color theme: "+strings.Join(ui.ThemeNames(), ", "))
+	fs.StringVar(&o.theme, "theme", ui.DefaultTheme, "color theme: "+strings.Join(ui.ThemeNames(), ", "))
 	fs.IntVar(&o.mock, "mock", 0, "simulate `n` GPUs instead of querying NVML")
 	fs.BoolVar(&o.jsonOut, "json", false, "print a single snapshot as JSON and exit")
 	fs.BoolVar(&o.version, "version", false, "print version and exit")
