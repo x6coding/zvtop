@@ -75,20 +75,64 @@ zvtop -json | jq '.devices[] | {name, util, temp, power}'
 
 ## Architecture
 
-```
-cmd/zvtop            flag parsing, backend selection, JSON mode
-internal/gpu         Source interface, Snapshot model
-  nvml.go            NVML backend (linux && cgo)
-  nvml_stub.go       fallback for other builds
-  mock.go            deterministic simulated GPUs
-  proc.go            /proc lookup with a PID cache
-internal/history     generic fixed-size ring buffer
-internal/ui          Bubble Tea model, layout and widgets
-  widgets.go         braille graph, gradient meter, titled box
-  procs.go           sortable process table with PID-stable selection
+```mermaid
+flowchart LR
+    subgraph backend["gpu.Source"]
+        NVML["NVML backend<br/>go-nvml · cgo · dlopen libnvidia-ml.so"]
+        Mock["Mock backend<br/>seeded PRNG, N devices"]
+        Stub["stub<br/>!(linux && cgo) → ErrUnavailable"]
+        Proc["procCache<br/>/proc/&lt;pid&gt;/{comm,cmdline,status}<br/>mark-and-sweep per snapshot"]
+        NVML --> Proc
+    end
+
+    CLI["main<br/>flags · backend selection"] -->|"-mock N"| Mock
+    CLI -->|default| NVML
+    CLI -->|"-json"| JSON["one-shot Snapshot → stdout"]
+
+    subgraph ui["Bubble Tea runtime"]
+        Model["Model.Update<br/>(pure state transition)"]
+        Hist["per-device Ring[float64] ×6<br/>util · mem · power · temp · rx · tx<br/>cap 600"]
+        Procs["procTable<br/>stable sort · PID-pinned selection"]
+        View["View<br/>braille graphs · Lab gradients · boxes"]
+        Model --> Hist
+        Model --> Procs
+        Hist --> View
+        Procs --> View
+    end
+
+    backend -- "Snapshot (Value[T] = optional metric)" --> Model
+    Model -- "kill(2) SIGTERM / SIGKILL" --> OS[(kernel)]
 ```
 
-The UI depends only on the `gpu.Source` interface. Each sample is taken in a `tea.Cmd`, so a slow NVML call never blocks rendering, and the next tick is scheduled only after the current sample arrives, so samples never overlap.
+### Sampling loop
+
+```mermaid
+sequenceDiagram
+    participant R as tea runtime
+    participant M as Model
+    participant C as tea.Cmd goroutine
+    participant S as gpu.Source
+
+    R->>M: Init()
+    M-->>R: fetch()
+    R->>C: run fetch
+    C->>S: Snapshot(ctx, timeout = max(interval, 1s))
+    S-->>C: Snapshot / error
+    C-->>R: snapshotMsg
+    R->>M: Update(snapshotMsg)
+    M->>M: push rings, re-sort procs, keep selected PID
+    M-->>R: tea.Tick(interval)
+    Note over R,M: next tick is armed only after the sample lands,<br/>so samples never overlap and a slow NVML call<br/>never blocks rendering or input
+    R->>M: Update(tickMsg)
+    M-->>R: fetch() (or re-arm tick if paused)
+```
+
+- **Backend contract.** The UI depends only on `gpu.Source { Snapshot(ctx) (Snapshot, error); Close() error }`. Every metric a device may not expose is a `Value[T]{V, OK}`, which renders as `-` and marshals to JSON `null` instead of a misleading zero.
+- **NVML sampling.** Static data (name, UUID, PCI bus ID, max clocks, slowdown threshold) is read once at init. Each tick reads utilization, memory, temperature, fan, clocks, power and enforced limit, PCIe RX/TX throughput and P-state. Processes are the union of `GetComputeRunningProcesses` and `GetGraphicsRunningProcesses`, merged by PID into `C`, `G` or `C+G`. Per-process SM/ENC/DEC comes from `GetProcessUtilization` with a per-device last-seen timestamp, so each call returns only new samples. `UsedGpuMemory == NVML_VALUE_NOT_AVAILABLE` (unprivileged) is treated as unknown.
+- **Process metadata.** `/proc` lookups are memoised. PIDs not seen in a snapshot are pruned, so a recycled PID is re-resolved instead of showing a stale command. UID → username lookups are cached separately.
+- **History.** Each device keeps six fixed-capacity generic ring buffers (`history.Ring[T]`, O(1) push, no allocation after warm-up). Values are normalised to `[0,1]` before storage: power is relative to the enforced limit, temperature to the slowdown threshold, VRAM to the total.
+- **Rendering.** Graphs are braille area charts with 2 samples per cell horizontally and 4 levels per cell vertically. Gradients are interpolated in CIE Lab and pre-computed into 101 styles per theme, so per-cell coloring is a table lookup. Rendering is a pure function of `Model`, which makes it testable at fixed terminal sizes without a TTY.
+- **Build.** The NVML backend needs `linux && cgo`. go-nvml loads `libnvidia-ml.so` at runtime, so the binary starts on machines without the driver and fails cleanly with a hint to use `-mock`.
 
 ## Development
 
