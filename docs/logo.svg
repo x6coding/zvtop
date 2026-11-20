@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- gruvbox dark hard, chrome palette (~/.config/nvim/lua/config/gruvbox_palette.lua) -->
+  <defs>
+    <linearGradient id="ink" gradientUnits="userSpaceOnUse" x1="0" y1="320" x2="0" y2="844">
+      <stop offset="0" stop-color="#fbf1c7"/>
+      <stop offset="1" stop-color="#d5c4a1"/>
+    </linearGradient>
+  </defs>
+  <rect x="32" y="32" width="960" height="960" rx="200" fill="#1d2021"/>
+  <rect x="32" y="32" width="960" height="960" rx="200" fill="none" stroke="#3c3836" stroke-width="16"/>
+  <g transform="translate(-6 -70)" fill="none" stroke="url(#ink)" stroke-width="64" stroke-linecap="round" stroke-linejoin="round">
+    <!-- z flows into v through the shared top-right corner -->
+    <path d="M212 352 H412 L212 652 H412"/>
+    <path d="M412 352 L502 652 L592 352"/>
+    <!-- p rises out of the end of v: v's right arm is the top of p's stem -->
+    <path d="M592 352 V812"/>
+    <path d="M592 352 H672 a150 150 0 0 1 0 300 H592"/>
+  </g>
+</svg>

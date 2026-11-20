@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/logo.svg" alt="zvtop logo" width="160">
+</p>
+
 # zvtop
 
 A [btop](https://github.com/aristocratos/btop)-inspired terminal monitor for NVIDIA GPUs, written in Go.
