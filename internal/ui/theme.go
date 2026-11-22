@@ -70,7 +70,7 @@ type palette struct {
 }
 
 // DefaultTheme is the theme used when none is chosen.
-const DefaultTheme = "crimson"
+const DefaultTheme = "gruvbox"
 
 var palettes = map[string]palette{
 	"btop": {
