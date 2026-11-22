@@ -35,6 +35,7 @@ Or build from source:
 
 ```sh
 git clone https://github.com/zvdy/zvtop && cd zvtop
+make deps         # download Go modules, install golangci-lint if missing
 make build        # ./bin/zvtop
 make demo         # run against two simulated GPUs
 ```
@@ -137,6 +138,7 @@ sequenceDiagram
 ## Development
 
 ```sh
+make deps     # go mod download + golangci-lint (if missing)
 make test     # go test -race ./...
 make lint     # golangci-lint (config in .golangci.yml)
 make cover

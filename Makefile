@@ -6,9 +6,16 @@ LDFLAGS := -s -w -X main.version=$(VERSION)
 # go-nvml's bundled headers mark several unused symbols deprecated.
 export CGO_CFLAGS ?= -Wno-deprecated-declarations
 
-.PHONY: all build run demo test cover lint fmt clean install
+.PHONY: all build run demo test cover lint fmt clean install deps
 
 all: lint test build
+
+# Download Go module deps and install golangci-lint if it's missing.
+deps:
+	go mod download
+	go mod verify
+	@command -v golangci-lint >/dev/null 2>&1 || \
+		go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 
 build:
 	go build -trimpath -ldflags '$(LDFLAGS)' -o bin/$(BINARY) $(PKG)
