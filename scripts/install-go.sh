@@ -39,4 +39,30 @@ $sudo rm -rf /usr/local/go
 $sudo tar -C /usr/local -xzf "$tmp/$tarball"
 
 echo "installed $(/usr/local/go/bin/go version)"
-echo "add /usr/local/go/bin to your PATH if it is not already there"
+
+case ":$PATH:" in
+	*:/usr/local/go/bin:*) exit 0 ;;
+esac
+
+case "$(basename "${SHELL:-sh}")" in
+	zsh)  rc="$HOME/.zshrc";    line='export PATH="$PATH:/usr/local/go/bin"' ;;
+	bash) rc="$HOME/.bashrc";   line='export PATH="$PATH:/usr/local/go/bin"'
+	      [ "$os" = darwin ] && rc="$HOME/.bash_profile" ;;
+	fish) rc="$HOME/.config/fish/config.fish"; line='fish_add_path /usr/local/go/bin' ;;
+	*)    rc="$HOME/.profile";  line='export PATH="$PATH:/usr/local/go/bin"' ;;
+esac
+
+echo "/usr/local/go/bin is not in your PATH."
+if [ -t 0 ]; then
+	printf 'Add it to %s? [y/N] ' "$rc"
+	read -r answer || answer=n
+	case "$answer" in
+		y|Y|yes|YES)
+			mkdir -p "$(dirname "$rc")"
+			printf '\n# Go\n%s\n' "$line" >> "$rc"
+			echo "added to $rc; restart your shell or run: source $rc"
+			exit 0 ;;
+	esac
+fi
+echo "to add it manually, put this in $rc:"
+echo "  $line"
