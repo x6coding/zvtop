@@ -15,7 +15,8 @@ help: ## Show this help
 all: lint test build ## Lint, test and build
 
 # Download Go module deps and install golangci-lint if it's missing.
-deps: ## Download Go modules, install golangci-lint if missing
+deps: ## Install Go (if missing), download modules, install golangci-lint
+	./scripts/install-go.sh
 	go mod download
 	go mod verify
 	@command -v golangci-lint >/dev/null 2>&1 || \
